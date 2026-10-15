@@ -35,6 +35,9 @@ import { UserThrottlerGuard } from './auth/user-throttler.guard';
         username: config.getOrThrow<string>('DB_USERNAME'),
         password: config.getOrThrow<string>('DB_PASSWORD'),
         database: config.getOrThrow<string>('DB_DATABASE'),
+        ssl: config.get<string>('DB_SSL') === 'require'
+          ? { rejectUnauthorized: false }
+          : config.get<string>('DB_SSL') === 'true',
         autoLoadEntities: true,
         synchronize: false,
       }),
