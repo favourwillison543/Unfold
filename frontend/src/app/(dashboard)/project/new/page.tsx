@@ -255,11 +255,12 @@ function NewProjectContent() {
 
           {step === 3 && projectId && (
             <Step3Questions
-              projectId={projectId}
-              questions={questions}
-              onBack={() => setStep(2)}
-              onFinish={handleFinish}
-            />
+            projectId={projectId}
+            questions={questions}
+            onBack={() => setStep(2)}
+            onFinish={handleFinish}
+            isGeneratingGoals={generateGoalSuggestions.isPending}
+          />
           )}
 
           {step === 4 && goalSuggestions && (

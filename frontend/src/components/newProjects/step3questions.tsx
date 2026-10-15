@@ -15,6 +15,7 @@ type Step3Props = {
   questions: Question[];
   onBack: () => void;
   onFinish: (answers: Record<string, string>) => void;
+  isGeneratingGoals: boolean;
 };
 
 export default function Step3Questions({
@@ -22,6 +23,7 @@ export default function Step3Questions({
   questions: initialQuestions,
   onBack,
   onFinish,
+  isGeneratingGoals,
 }: Step3Props) {
   const [questions, setQuestions] =
     useState<Question[]>(initialQuestions);
@@ -73,14 +75,14 @@ export default function Step3Questions({
     if (!question) {
       return;
     }
-  
+
     const answer =
       answers[question.id]?.trim();
-  
+
     if (!answer) {
       return;
     }
-  
+
     try {
       const result =
         await updateQuestions.mutateAsync({
@@ -92,18 +94,18 @@ export default function Step3Questions({
             },
           ],
         });
-  
+
       const returnedQuestions =
         result?.questions ?? [];
-  
+
       console.log(
         "QUESTION RESPONSE:",
         returnedQuestions
       );
-  
+
       // Keep the latest questions returned by the backend.
       setQuestions(returnedQuestions);
-  
+
       // Find the next question that has not been answered yet.
       const nextQuestion =
         returnedQuestions.find(
@@ -111,18 +113,18 @@ export default function Step3Questions({
             !item.answer &&
             item.id !== question.id
         );
-  
+
       if (nextQuestion) {
         const nextIndex =
           returnedQuestions.findIndex(
             (item) =>
               item.id === nextQuestion.id
           );
-  
+
         setCurrentIdx(nextIndex);
         return;
       }
-  
+
       // There are no unanswered questions left.
       onFinish({
         ...answers,
@@ -208,46 +210,41 @@ export default function Step3Questions({
         )}
 
         <div className="mt-6 space-y-3">
-          {question.options.map(
-            (option) => {
-              const selected =
-                selectedAnswer ===
-                option.value;
+          {question.options.map((option) => {
+            const selected =
+              selectedAnswer === option.value;
 
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() =>
-                    handleSelect(
-                      option.value
-                    )
-                  }
-                  className={`flex w-full items-start gap-3 rounded-xl border p-4 text-left transition-all ${
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() =>
+                  handleSelect(option.value)
+                }
+                className={`flex w-full items-start gap-3 rounded-xl border p-4 text-left transition-all ${
+                  selected
+                    ? "border-brand bg-brand/[0.03] ring-1 ring-brand"
+                    : "border-border bg-background hover:border-border/80"
+                }`}
+              >
+                <div
+                  className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
                     selected
-                      ? "border-brand bg-brand/[0.03] ring-1 ring-brand"
-                      : "border-border bg-background hover:border-border/80"
+                      ? "border-brand bg-brand"
+                      : "border-muted"
                   }`}
                 >
-                  <div
-                    className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
-                      selected
-                        ? "border-brand bg-brand"
-                        : "border-muted"
-                    }`}
-                  >
-                    {selected && (
-                      <div className="h-1.5 w-1.5 rounded-full bg-white" />
-                    )}
-                  </div>
+                  {selected && (
+                    <div className="h-1.5 w-1.5 rounded-full bg-white" />
+                  )}
+                </div>
 
-                  <p className="text-xs font-bold text-main">
-                    {option.label}
-                  </p>
-                </button>
-              );
-            }
-          )}
+                <p className="text-xs font-bold text-main">
+                  {option.label}
+                </p>
+              </button>
+            );
+          })}
         </div>
 
         <div className="mt-6 border-t border-border pt-6">
@@ -264,15 +261,12 @@ export default function Step3Questions({
             value={
               question.options.some(
                 (option) =>
-                  option.value ===
-                  selectedAnswer
+                  option.value === selectedAnswer
               )
                 ? ""
                 : selectedAnswer
             }
-            onChange={
-              handleCustomAnswer
-            }
+            onChange={handleCustomAnswer}
             placeholder="Describe your answer..."
             rows={3}
             className="w-full resize-none rounded-xl border border-border bg-background p-4 text-sm text-main transition-colors placeholder:text-muted/60 focus:border-brand focus:outline-none"
@@ -285,7 +279,8 @@ export default function Step3Questions({
           type="button"
           onClick={onBack}
           disabled={
-            updateQuestions.isPending
+            updateQuestions.isPending ||
+            isGeneratingGoals
           }
           className="text-xs font-semibold text-muted transition-colors hover:text-main disabled:opacity-50"
         >
@@ -296,19 +291,28 @@ export default function Step3Questions({
           onClick={handleContinue}
           disabled={
             !selectedAnswer.trim() ||
-            updateQuestions.isPending
+            updateQuestions.isPending ||
+            isGeneratingGoals
           }
           className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-2.5 text-xs font-medium text-white transition-colors hover:bg-brand/90 disabled:opacity-50"
         >
+          {(updateQuestions.isPending ||
+            isGeneratingGoals) && (
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          )}
+
           <span>
-            {updateQuestions.isPending
-              ? "Saving..."
-              : "Continue"}
+            {isGeneratingGoals
+              ? "Generating goals..."
+              : updateQuestions.isPending
+                ? "Saving..."
+                : "Continue"}
           </span>
 
-          {!updateQuestions.isPending && (
-            <FiArrowRight className="h-4 w-4" />
-          )}
+          {!updateQuestions.isPending &&
+            !isGeneratingGoals && (
+              <FiArrowRight className="h-4 w-4" />
+            )}
         </Button>
       </div>
 

@@ -6,17 +6,13 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-
 import type { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
-
-import { CreateUserDto } from '../users/dto/create-user.dto';
-
-import { UsersService } from '../users/users.service';
-
 import { Public } from './public.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { UsersService } from '../users/users.service';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -30,36 +26,10 @@ export class AuthController {
   @Post('signup')
   async signup(
     @Body() createUserDto: CreateUserDto,
-  ) {
-    // Create the account and send the verification OTP.
-    // No login cookie is created yet.
-    return this.authService.signup(createUserDto);
-  }
-
-  @Public()
-  @Post('resend-verification')
-  async resendVerification(
-    @Body('email') email: string,
-  ) {
-    // Generate and send a new verification OTP.
-    return this.authService.resendVerification(email);
-  }
-
-  @Public()
-  @Post('verify-email')
-  async verifyEmail(
-    @Body('email') email: string,
-    @Body('otp') otp: string,
     @Res({ passthrough: true }) response: Response,
   ) {
-    // Verify the OTP and create the JWT.
-    const result =
-      await this.authService.verifyEmail(
-        email,
-        otp,
-      );
+    const result = await this.authService.signup(createUserDto);
 
-    // Only create the login cookie after successful verification.
     response.cookie('accessToken', result.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -69,6 +39,7 @@ export class AuthController {
     });
 
     return {
+      message: result.message,
       user: result.user,
     };
   }
@@ -80,10 +51,7 @@ export class AuthController {
     @Body('password') password: string,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const result = await this.authService.login(
-      email,
-      password,
-    );
+    const result = await this.authService.login(email, password);
 
     response.cookie('accessToken', result.accessToken, {
       httpOnly: true,
@@ -100,9 +68,7 @@ export class AuthController {
 
   @Public()
   @Post('logout')
-  logout(
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('accessToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -118,7 +84,6 @@ export class AuthController {
   @Get('me')
   async getMe(@Req() request: any) {
     const userId = request.user.sub;
-
     return this.usersService.findById(userId);
   }
 }

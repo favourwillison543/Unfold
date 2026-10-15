@@ -1,13 +1,9 @@
 "use client";
 
 import React from "react";
-
 import Link from "next/link";
-
 import Image from "next/image";
-
 import { useRouter } from "next/navigation";
-
 import { useCreateAccount } from "@/hooks/auth/useAuth";
 
 const GoogleIcon = () => (
@@ -31,11 +27,8 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const VERIFICATION_EMAIL_KEY = "verificationEmail";
-
 export default function SignupPage() {
   const router = useRouter();
-
   const createAccount = useCreateAccount();
 
   return (
@@ -63,21 +56,12 @@ export default function SignupPage() {
               const password = formData.get("password") as string;
 
               createAccount.mutate(
+                { name, email, password },
                 {
-                  name,
-                  email,
-                  password,
-                },
-                {
-                  onSuccess: (data) => {
-                    sessionStorage.setItem(
-                      VERIFICATION_EMAIL_KEY,
-                      data.email
-                    );
-
-                    router.push("/verify-email");
+                  onSuccess: () => {
+                    router.replace("/dashboard");
                   },
-                }
+                },
               );
             }}
           >
@@ -94,6 +78,7 @@ export default function SignupPage() {
                 name="fullName"
                 type="text"
                 placeholder="Jane Doe"
+                required
                 className="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-main placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand transition-colors"
               />
             </div>
@@ -111,6 +96,7 @@ export default function SignupPage() {
                 name="email"
                 type="email"
                 placeholder="jane@example.com"
+                required
                 className="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm text-main placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand transition-colors"
               />
             </div>
@@ -129,6 +115,7 @@ export default function SignupPage() {
                   name="password"
                   type="password"
                   placeholder="••••••••"
+                  required
                   className="w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 pr-10 text-sm text-main placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand transition-colors"
                 />
 
@@ -136,6 +123,15 @@ export default function SignupPage() {
                   type="button"
                   aria-label="Toggle password visibility"
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-main transition-colors"
+                  onClick={(event) => {
+                    const input = event.currentTarget
+                      .previousElementSibling as HTMLInputElement | null;
+
+                    if (input) {
+                      input.type =
+                        input.type === "password" ? "text" : "password";
+                    }
+                  }}
                 >
                   <svg
                     className="w-4 h-4"
@@ -147,12 +143,7 @@ export default function SignupPage() {
                     strokeLinejoin="round"
                   >
                     <path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a21.8 21.8 0 015.06-6.06M9.9 4.24A10.94 10.94 0 0112 4c7 0 11 8 11 8a21.8 21.8 0 01-3.22 4.44M14.12 14.12a3 3 0 11-4.24-4.24" />
-                    <line
-                      x1="1"
-                      y1="1"
-                      x2="23"
-                      y2="23"
-                    />
+                    <line x1="1" y1="1" x2="23" y2="23" />
                   </svg>
                 </button>
               </div>
@@ -167,6 +158,14 @@ export default function SignupPage() {
                 ? "Creating account..."
                 : "Create account"}
             </button>
+
+            {createAccount.isError && (
+              <p className="text-sm text-red-600" role="alert">
+                {createAccount.error instanceof Error
+                  ? createAccount.error.message
+                  : "Could not create your account. Please try again."}
+              </p>
+            )}
           </form>
 
           <div className="mt-6 flex items-center gap-3">
