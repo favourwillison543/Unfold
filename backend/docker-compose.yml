@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: unfold-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:?DB_USERNAME is required}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      POSTGRES_DB: ${DB_DATABASE:?DB_DATABASE is required}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - unfold_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  unfold_postgres_data:
