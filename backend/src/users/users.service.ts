@@ -1,17 +1,14 @@
+
 import {
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { User } from './user.entity';
-
 import { Repository } from 'typeorm';
-
 import * as bcrypt from 'bcrypt';
 
+import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
@@ -39,8 +36,7 @@ export class UsersService {
 
     try {
       const savedUser = await this.userRepository.save(user);
-
-      const { password, ...userWithoutPassword } = savedUser;
+      const { password: _password, ...userWithoutPassword } = savedUser;
 
       return userWithoutPassword;
     } catch (error) {
@@ -52,7 +48,7 @@ export class UsersService {
       ) {
         throw new ConflictException('Email already exists');
       }
-    
+
       throw error;
     }
   }
@@ -67,35 +63,17 @@ export class UsersService {
 
   async findById(id: number) {
     const user = await this.userRepository.findOneBy({ id });
-
+  
     if (!user) {
       throw new NotFoundException('User not found');
     }
-
-    return user;
-  }
-
-
-  async setVerificationOtp(
-    userId: number,
-    otpHash: string,
-    expiresAt: Date,
-  ) {
-    await this.userRepository.update(userId, {
-      verificationOtpHash: otpHash,
-      verificationOtpExpiresAt: expiresAt,
-    });
+  
+    const { password: _password, ...userWithoutPassword } = user;
+  
+    return userWithoutPassword;
   }
 
   async findByEmail(email: string) {
     return this.userRepository.findOneBy({ email });
-  }
-
-  async verifyEmail(userId: number) {
-    await this.userRepository.update(userId, {
-      emailVerified: true,
-      verificationOtpHash: null,
-      verificationOtpExpiresAt: null,
-    });
   }
 }
