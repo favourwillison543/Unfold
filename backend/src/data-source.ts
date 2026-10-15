@@ -10,7 +10,9 @@ const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-
+  ssl: process.env.DB_SSL === 'require'
+  ? { rejectUnauthorized: false }
+  : process.env.DB_SSL === 'true',
   entities: ['src/**/*.entity.ts'],
   migrations: ['src/migrations/*.ts'],
 
