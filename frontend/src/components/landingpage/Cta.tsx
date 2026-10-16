@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from '../ui/container';
+import { Button } from '../ui/button';
 
 export default function FinalCTA() {
   return (
@@ -32,15 +33,16 @@ export default function FinalCTA() {
 
             <div className="mt-9">
 
-              <a
+              <Button
                 href="/signup"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#C65D3A] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(198,93,58,0.22)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#B95332]"
+                variant="accent"
+                className="group rounded-full px-6 py-3.5 shadow-[0_8px_30px_rgba(198,93,58,0.22)] hover:-translate-y-0.5"
               >
                 Start unfolding
                 <span className="transition-transform duration-200 group-hover:translate-x-0.5">
                   →
                 </span>
-              </a>
+              </Button>
 
             </div>
 

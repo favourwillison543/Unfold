@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 
 export default function UnfoldSection() {
   return (
-    <section className="relative bg-surface py-12 sm:py-16 lg:py-20 border-t border-border overflow-hidden">
+    <section id="about" className="relative scroll-mt-24 bg-surface py-12 sm:py-16 lg:py-20 border-t border-border overflow-hidden">
       <Container>
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14 space-y-4">
           <span className="block text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0F6B56]">
@@ -27,7 +27,7 @@ export default function UnfoldSection() {
               <Button
                 className="w-full sm:w-auto bg-brand hover:bg-brand/90 text-white font-medium text-sm rounded-full px-7 py-3.5 transition-colors shadow-sm"
               >
-                <Link href="/get-started" className="flex items-center justify-center gap-2">
+                <Link href="/signup" className="flex items-center justify-center gap-2">
                   <span>Get started</span>
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6" />

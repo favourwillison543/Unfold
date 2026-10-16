@@ -5,7 +5,7 @@ import { TbBrain } from 'react-icons/tb';
 
 export default function IdeaToLogic() {
   return (
-    <section className="relative overflow-hidden border-t border-border bg-[#FAF8F5] py-16 sm:py-20 lg:py-24">
+    <section id="features" className="scroll-mt-24 relative overflow-hidden border-t border-border bg-[#FAF8F5] py-16 sm:py-20 lg:py-24">
       <Container>
 
         <div className="mx-auto mb-10 sm:mb-14 max-w-2xl space-y-4 text-center">

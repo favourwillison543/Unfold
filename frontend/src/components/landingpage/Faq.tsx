@@ -15,7 +15,7 @@ export default function FAQ() {
   const toggleFAQ = (index: number) => setOpenIndex(openIndex === index ? null : index);
 
   return (
-    <section className="bg-[#FAF8F5] py-20 sm:py-24 lg:py-28">
+    <section id="faq" className="scroll-mt-24 bg-[#FAF8F5] py-20 sm:py-24 lg:py-28">
       <Container>
         <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
 

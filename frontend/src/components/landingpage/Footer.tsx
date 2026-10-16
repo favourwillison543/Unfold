@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="border-t border-black/5 pt-10 sm:pt-12">
 
           {/* Main footer */}
-          <div className="grid gap-10 sm:grid-cols-[1.5fr_1fr_1fr_1fr] sm:gap-8">
+          <div className="grid gap-10 sm:grid-cols-[1.5fr_1fr_1fr] sm:gap-8">
 
             {/* Brand */}
             <div className="max-w-xs">
@@ -38,25 +38,6 @@ export default function Footer() {
                 logic, and buildable plans.
               </p>
 
-              <div className="mt-5 flex items-center gap-2.5">
-
-                <a
-                  href="#"
-                  aria-label="Twitter"
-                  className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 text-[10px] font-semibold text-[#555555] transition-colors hover:border-[#0F6B56]/30 hover:text-[#0F6B56]"
-                >
-                  X
-                </a>
-
-                <a
-                  href="#"
-                  aria-label="GitHub"
-                  className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 text-[10px] font-semibold text-[#555555] transition-colors hover:border-[#0F6B56]/30 hover:text-[#0F6B56]"
-                >
-                  GH
-                </a>
-
-              </div>
             </div>
 
             {/* Product */}
@@ -74,11 +55,7 @@ export default function Footer() {
                   How it works
                 </Link>
 
-                <Link href="#templates" className="transition-colors hover:text-[#0F6B56]">
-                  Templates
-                </Link>
-
-                <Link href="/get-started" className="transition-colors hover:text-[#0F6B56]">
+                <Link href="/signup" className="transition-colors hover:text-[#0F6B56]">
                   Get started
                 </Link>
               </div>
@@ -95,29 +72,8 @@ export default function Footer() {
                   About
                 </Link>
 
-                <Link href="/contact" className="transition-colors hover:text-[#0F6B56]">
-                  Contact
-                </Link>
-
-                <Link href="/faq" className="transition-colors hover:text-[#0F6B56]">
+                <Link href="#faq" className="transition-colors hover:text-[#0F6B56]">
                   FAQ
-                </Link>
-              </div>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <p className="mb-4 text-xs font-semibold text-[#181818]">
-                Legal
-              </p>
-
-              <div className="flex flex-col gap-3 text-xs text-[#777777]">
-                <Link href="/privacy" className="transition-colors hover:text-[#0F6B56]">
-                  Privacy
-                </Link>
-
-                <Link href="/terms" className="transition-colors hover:text-[#0F6B56]">
-                  Terms
                 </Link>
               </div>
             </div>

@@ -11,14 +11,14 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: '/', label: 'Home' },
+    { href: '#home', label: 'Home' },
     { href: '#about', label: 'About' },
     { href: '#features', label: 'Features' },
     { href: '#how-it-works', label: 'How it works' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#FDF8EE] py-3 relative overflow-hidden">
+    <header id="home" className="sticky top-0 z-50 bg-[#FDF8EE] py-3 relative overflow-hidden">
       <div className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-r from-transparent via-[#0F6B56]/5 to-[#0F6B56]/15 pointer-events-none" />
 
       <Container className="relative z-10">
