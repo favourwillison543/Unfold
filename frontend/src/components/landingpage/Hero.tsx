@@ -1,14 +1,7 @@
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Container } from '../ui/container';
 import { Button } from '../ui/button';
-
-const PlayIcon = () => (
-  <svg className="w-3.5 h-3.5 text-[#0F6B56] fill-current" viewBox="0 0 24 24">
-    <path d="M8 5v14l11-7z" />
-  </svg>
-);
 
 const SearchIcon = () => (
   <svg className="w-5 h-5 text-[#EC4899]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -81,19 +74,18 @@ export default function Hero() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <Button
-                className="w-full sm:w-auto bg-[#0F6B56] hover:bg-[#0C5847] text-white font-medium text-sm rounded-full px-7 py-3.5 transition-colors shadow-sm"
+                href="/signup"
+                className="w-full sm:w-auto rounded-full bg-[#0F6B56] px-7 py-3.5 text-white shadow-sm hover:bg-[#0C5847]"
               >
-                <Link href="/signup" className="block w-full text-center">Get Started</Link>
+                Get Started
               </Button>
 
               <Button
-                variant="ghost"
-                className="w-full sm:w-auto border border-[#0F6B56] text-[#0F6B56] hover:bg-[#0F6B56]/5 font-medium text-sm rounded-full px-6 py-3 transition-colors"
+                href="#how-it-works"
+                variant="landingOutline"
+                className="w-full sm:w-auto rounded-full px-6 py-3.5"
               >
-                <Link href="#demo" className="flex items-center justify-center gap-2">
-                  <PlayIcon />
-                  <span>Watch Video</span>
-                </Link>
+                <span>See How It Works</span>
               </Button>
             </div>
           </div>

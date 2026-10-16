@@ -1,7 +1,9 @@
 import * as React from "react";
+import Link from "next/link";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "outline" | "ghost";
+  href?: string;
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "landingOutline" | "accent";
   size?: "sm" | "md" | "lg";
 };
 
@@ -10,6 +12,7 @@ export function Button({
   variant = "primary",
   size = "md",
   className = "",
+  href,
   ...props
 }: ButtonProps) {
   const variants = {
@@ -18,6 +21,9 @@ export function Button({
     outline:
       "border border-border bg-transparent text-main hover:bg-surface",
     ghost: "bg-transparent text-main hover:bg-surface",
+    landingOutline:
+      "border border-[#0F6B56] bg-transparent text-[#0F6B56] hover:bg-[#0F6B56]/5",
+    accent: "bg-[#C65D3A] text-white hover:bg-[#B95332]",
   };
 
   const sizes = {
@@ -26,9 +32,7 @@ export function Button({
     lg: "h-12 px-6 text-base",
   };
 
-  return (
-    <button
-      className={`
+  const buttonClassName = `
         inline-flex items-center justify-center gap-2
         rounded-lg font-medium
         transition-colors
@@ -37,9 +41,18 @@ export function Button({
         ${variants[variant]}
         ${sizes[size]}
         ${className}
-      `}
-      {...props}
-    >
+      `;
+
+  if (href) {
+    return (
+      <Link href={href} className={buttonClassName}>
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <button className={buttonClassName} {...props}>
       {children}
     </button>
   );

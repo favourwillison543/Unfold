@@ -37,7 +37,7 @@ const SparkleIcon = () => (
 
 export default function HowItWorks() {
   return (
-    <section className="relative py-12 sm:py-16 lg:py-20 border-t border-border overflow-hidden">
+    <section id="how-it-works" className="relative scroll-mt-24 py-12 sm:py-16 lg:py-20 border-t border-border overflow-hidden">
       <Container>
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14 space-y-4">
           <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0F6B56]">
@@ -124,7 +124,7 @@ export default function HowItWorks() {
               </p>
             </div>
             <div className="relative z-10 pt-6">
-              <Link href="/how-it-works" className="inline-flex items-center gap-2 text-sm font-bold text-main hover:text-brand transition-colors">
+              <Link href="#how-it-works" className="inline-flex items-center gap-2 text-sm font-bold text-main hover:text-brand transition-colors">
                 <span>See how it works</span>
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12" />
